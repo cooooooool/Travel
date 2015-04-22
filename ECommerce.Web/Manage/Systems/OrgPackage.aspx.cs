@@ -34,6 +34,7 @@ namespace ECommerce.Web.Manage.Systems
             ddlSendType.DataTextField = "RPName";
             ddlSendType.DataValueField = "RPID";
             ddlSendType.DataBind();
+            ddlSendType.Items.Insert(0, new ListItem("请选择", ""));
         }
 
         #endregion
@@ -90,21 +91,31 @@ namespace ECommerce.Web.Manage.Systems
 
             #region 特殊铁路局资源包
 
-            //分页查询语句
-            var sqlSp = "select row_number() over(order by  OrgOrganize.OrgId DESC) as rownum,OrgOrganize.OrgName,StaPackage.SPID,StaPackage.Status as spstatus,StaPackage.CreateDate,StaPackage.OrgId,OrgPkgList.SSPID from OrgOrganize join OrgPkgList on OrgPkgList.OrgId=OrgOrganize.OrgId join StaPackage on StaPackage.SPID=OrgPkgList.SPID where StaPackage.PkgType=1 and StaPackage.OrgId=" + emp.OrgId + " ";
-            if (!string.IsNullOrEmpty(ddlSendType.SelectedValue))
+            if (!string.IsNullOrEmpty(ddlSendType.SelectedValue) || !string.IsNullOrEmpty(Request.QueryString["name"]))
             {
-                sqlSp += " and OrgPkgList.RPID=@RPID ";
+                //分页查询语句
+                var sqlSp =
+                    "select row_number() over(order by  OrgOrganize.OrgId DESC) as rownum,OrgOrganize.OrgName,StaPackage.SPID,StaPackage.Status as spstatus,StaPackage.CreateDate,StaPackage.OrgId,OrgPkgList.SSPID from OrgOrganize join OrgPkgList on OrgPkgList.OrgId=OrgOrganize.OrgId join StaPackage on StaPackage.SPID=OrgPkgList.SPID where StaPackage.PkgType=1 and StaPackage.OrgId=" +
+                    emp.OrgId + " ";
+                if (!string.IsNullOrEmpty(ddlSendType.SelectedValue))
+                {
+                    sqlSp += " and OrgPkgList.RPID=@RPID ";
+                }
+                else if (!string.IsNullOrEmpty(Request.QueryString["name"]))
+                {
+                    sqlSp += " and OrgPkgList.RPID=@RPID ";
+                }
+                DbCommand dbCommandSp = db.GetSqlStringCommand(sqlSp);
+                dbCommandSp.Parameters.Add(new SqlParameter("@RPID", DbType.AnsiString) {Value = name});
+                var dtSp = db.ExecuteDataSet(dbCommandSp).Tables[0];
+                rptSp.DataSource = dtSp;
+                rptSp.DataBind();
             }
-            else if (!string.IsNullOrEmpty(Request.QueryString["name"]))
+            else
             {
-                sqlSp += " and OrgPkgList.RPID=@RPID ";
+                rptSp.DataSource = null;
+                rptSp.DataBind();
             }
-            DbCommand dbCommandSp = db.GetSqlStringCommand(sqlSp);
-            dbCommandSp.Parameters.Add(new SqlParameter("@RPID", DbType.AnsiString) { Value = name });
-            var dtSp = db.ExecuteDataSet(dbCommandSp).Tables[0];
-            rptSp.DataSource = dtSp;
-            rptSp.DataBind();
 
             #endregion
         }

@@ -36,6 +36,7 @@ namespace ECommerce.Web.Manage.Systems
             ddlSendType.DataTextField = "RPName";
             ddlSendType.DataValueField = "RPID";
             ddlSendType.DataBind();
+            ddlSendType.Items.Insert(0,new ListItem("请选择",""));
         }
 
         protected void ddlOrderStatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -103,6 +104,11 @@ namespace ECommerce.Web.Manage.Systems
                         #endregion
                     }
                 }
+            }
+            else
+            {
+                rptListWork.DataSource = null;
+                rptListWork.DataBind();
             }
         }
 
