@@ -6,12 +6,12 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  12/24/2014 8:48:57 AM   N/A    初版
+* V0.01  4/22/2015 8:22:20 PM   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*│　                                                                　│
+*│　                                        　　　　　　　　　　　　　│
 *└──────────────────────────────────┘
 */
 using System;
@@ -38,6 +38,7 @@ namespace ECommerce.Admin.Model
 		private DateTime? _addtime;
 		private int? _status;
 		private DateTime? _enddate= DateTime.Now;
+		private int? _sortnum;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -133,6 +134,14 @@ namespace ECommerce.Admin.Model
 		{
 			set{ _enddate=value;}
 			get{return _enddate;}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? SortNum
+		{
+			set{ _sortnum=value;}
+			get{return _sortnum;}
 		}
 		#endregion Model
 

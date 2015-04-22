@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace ECommerce.Web.Manage {
+namespace ECommerce.Web.Manage.Systems {
     
     
     public partial class Default {

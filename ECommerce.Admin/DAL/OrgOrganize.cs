@@ -6,12 +6,12 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  12/24/2014 8:48:57 AM   N/A    初版
+* V0.01  4/22/2015 8:22:21 PM   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*│　                                                                　│
+*│　                                        　　　　　　　　　　　　　│
 *└──────────────────────────────────┘
 */
 using System;
@@ -24,473 +24,485 @@ using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data.Common;
 namespace ECommerce.Admin.DAL
 {
-    /// <summary>
-    /// 数据访问类:OrgOrganize
-    /// </summary>
-    public partial class OrgOrganize
-    {
-        public OrgOrganize()
-        { }
-        #region  Method
+	/// <summary>
+	/// 数据访问类:OrgOrganize
+	/// </summary>
+	public partial class OrgOrganize
+	{
+		public OrgOrganize()
+		{}
+		#region  Method
 
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        public bool Exists(long OrgId)
-        {
-            Database db = DatabaseFactory.CreateDatabase();
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select count(1) from OrgOrganize where OrgId=@OrgId ");
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            db.AddInParameter(dbCommand, "OrgId", DbType.Int64, OrgId);
-            int cmdresult;
-            object obj = db.ExecuteScalar(dbCommand);
-            if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
-            {
-                cmdresult = 0;
-            }
-            else
-            {
-                cmdresult = int.Parse(obj.ToString());
-            }
-            if (cmdresult == 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-
-        /// <summary>
-        /// 增加一条数据
-        /// </summary>
-        public long Add(Model.OrgOrganize model)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("insert into OrgOrganize(");
-            strSql.Append("AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate)");
-
-            strSql.Append(" values (");
-            strSql.Append("@AreaId,@OrgName,@OrgAddress,@OrgPhone,@EnName,@OrgFax,@OrgType,@OrgParentId,@AddTime,@Status,@EndDate)");
-            strSql.Append(";select @@IDENTITY");
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            db.AddInParameter(dbCommand, "AreaId", DbType.AnsiString, model.AreaId);
-            db.AddInParameter(dbCommand, "OrgName", DbType.String, model.OrgName);
-            db.AddInParameter(dbCommand, "OrgAddress", DbType.String, model.OrgAddress);
-            db.AddInParameter(dbCommand, "OrgPhone", DbType.AnsiString, model.OrgPhone);
-            db.AddInParameter(dbCommand, "EnName", DbType.String, model.EnName);
-            db.AddInParameter(dbCommand, "OrgFax", DbType.AnsiString, model.OrgFax);
-            db.AddInParameter(dbCommand, "OrgType", DbType.Byte, model.OrgType);
-            db.AddInParameter(dbCommand, "OrgParentId", DbType.Int64, model.OrgParentId);
-            db.AddInParameter(dbCommand, "AddTime", DbType.DateTime, model.AddTime);
-            db.AddInParameter(dbCommand, "Status", DbType.Byte, model.Status);
-            db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, model.EndDate);
-            int result;
-            object obj = db.ExecuteScalar(dbCommand);
-            if (!int.TryParse(obj.ToString(), out result))
-            {
-                return 0;
-            }
-            return result;
-        }
-        /// <summary>
-        /// 更新一条数据
-        /// </summary>
-        public bool Update(Model.OrgOrganize model)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("update OrgOrganize set ");
-            strSql.Append("AreaId=@AreaId,");
-            strSql.Append("OrgName=@OrgName,");
-            strSql.Append("OrgAddress=@OrgAddress,");
-            strSql.Append("OrgPhone=@OrgPhone,");
-            strSql.Append("EnName=@EnName,");
-            strSql.Append("OrgFax=@OrgFax,");
-            strSql.Append("OrgType=@OrgType,");
-            strSql.Append("OrgParentId=@OrgParentId,");
-            strSql.Append("AddTime=@AddTime,");
-            strSql.Append("Status=@Status,");
-            strSql.Append("EndDate=@EndDate");
-            strSql.Append(" where OrgId=@OrgId ");
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            db.AddInParameter(dbCommand, "OrgId", DbType.Int64, model.OrgId);
-            db.AddInParameter(dbCommand, "AreaId", DbType.AnsiString, model.AreaId);
-            db.AddInParameter(dbCommand, "OrgName", DbType.String, model.OrgName);
-            db.AddInParameter(dbCommand, "OrgAddress", DbType.String, model.OrgAddress);
-            db.AddInParameter(dbCommand, "OrgPhone", DbType.AnsiString, model.OrgPhone);
-            db.AddInParameter(dbCommand, "EnName", DbType.String, model.EnName);
-            db.AddInParameter(dbCommand, "OrgFax", DbType.AnsiString, model.OrgFax);
-            db.AddInParameter(dbCommand, "OrgType", DbType.Byte, model.OrgType);
-            db.AddInParameter(dbCommand, "OrgParentId", DbType.Int64, model.OrgParentId);
-            db.AddInParameter(dbCommand, "AddTime", DbType.DateTime, model.AddTime);
-            db.AddInParameter(dbCommand, "Status", DbType.Byte, model.Status);
-            db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, model.EndDate);
-            int rows = db.ExecuteNonQuery(dbCommand);
-
-            if (rows > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        public bool Delete(long OrgId)
-        {
-
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("delete from OrgOrganize ");
-            strSql.Append(" where OrgId=@OrgId ");
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            db.AddInParameter(dbCommand, "OrgId", DbType.Int64, OrgId);
-            int rows = db.ExecuteNonQuery(dbCommand);
-
-            if (rows > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        /// <summary>
-        /// 批量删除数据
-        /// </summary>
-        public bool DeleteList(string OrgIdlist)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("delete from OrgOrganize ");
-            strSql.Append(" where OrgId in (" + OrgIdlist + ")  ");
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            int rows = db.ExecuteNonQuery(dbCommand);
-
-            if (rows > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        public Model.OrgOrganize GetModel(long OrgId)
-        {
-
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select OrgId,AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate from OrgOrganize ");
-            strSql.Append(" where OrgId=@OrgId ");
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            db.AddInParameter(dbCommand, "OrgId", DbType.Int64, OrgId);
-            Model.OrgOrganize model = null;
-            using (IDataReader dataReader = db.ExecuteReader(dbCommand))
-            {
-                if (dataReader.Read())
-                {
-                    model = ReaderBind(dataReader);
-                }
-            }
-            return model;
-        }
+		/// <summary>
+		/// 是否存在该记录
+		/// </summary>
+		public bool Exists(long OrgId)
+		{
+			Database db = DatabaseFactory.CreateDatabase();
+			StringBuilder strSql = new StringBuilder();
+			strSql.Append("select count(1) from OrgOrganize where OrgId=@OrgId ");
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			db.AddInParameter(dbCommand, "OrgId", DbType.Int64,OrgId);
+			int cmdresult;
+			object obj = db.ExecuteScalar(dbCommand);
+			if ((Object.Equals(obj, null)) || (Object.Equals(obj, System.DBNull.Value)))
+			{
+				cmdresult = 0;
+			}
+			else
+			{
+				cmdresult = int.Parse(obj.ToString());
+			}
+			if (cmdresult == 0)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
 
 
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        public Model.OrgOrganize DataRowToModel(DataRow row)
-        {
-            Model.OrgOrganize model = new Model.OrgOrganize();
-            if (row != null)
-            {
-                if (row["OrgId"] != null && row["OrgId"].ToString() != "")
-                {
-                    model.OrgId = Convert.ToInt64(row["OrgId"].ToString());
-                }
-                if (row["AreaId"] != null)
-                {
-                    model.AreaId = row["AreaId"].ToString();
-                }
-                if (row["OrgName"] != null)
-                {
-                    model.OrgName = row["OrgName"].ToString();
-                }
-                if (row["OrgAddress"] != null)
-                {
-                    model.OrgAddress = row["OrgAddress"].ToString();
-                }
-                if (row["OrgPhone"] != null)
-                {
-                    model.OrgPhone = row["OrgPhone"].ToString();
-                }
-                if (row["EnName"] != null)
-                {
-                    model.EnName = row["EnName"].ToString();
-                }
-                if (row["OrgFax"] != null)
-                {
-                    model.OrgFax = row["OrgFax"].ToString();
-                }
-                if (row["OrgType"] != null && row["OrgType"].ToString() != "")
-                {
-                    model.OrgType = Convert.ToInt32(row["OrgType"].ToString());
-                }
-                if (row["OrgParentId"] != null && row["OrgParentId"].ToString() != "")
-                {
-                    model.OrgParentId = Convert.ToInt64(row["OrgParentId"].ToString());
-                }
-                if (row["AddTime"] != null && row["AddTime"].ToString() != "")
-                {
-                    model.AddTime = Convert.ToDateTime(row["AddTime"].ToString());
-                }
-                if (row["Status"] != null && row["Status"].ToString() != "")
-                {
-                    model.Status = Convert.ToInt32(row["Status"].ToString());
-                }
-                if (row["EndDate"] != null && row["EndDate"].ToString() != "")
-                {
-                    model.EndDate = Convert.ToDateTime(row["EndDate"].ToString());
-                }
-            }
-            return model;
-        }
+		/// <summary>
+		/// 增加一条数据
+		/// </summary>
+		public long Add(ECommerce.Admin.Model.OrgOrganize model)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("insert into OrgOrganize(");
+			strSql.Append("AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate,SortNum)");
 
-        /// <summary>
-        /// 获得数据列表
-        /// <param name="strWhere">查询条件 Status=@Status and Cell=@Cell order by CreateDate Desc  like写法:'%'+@Cell+'%' </param>
-        /// <param name="parameters">List<SqlParameter> parameters</param>
-        /// </summary>
-        public DataSet GetList(string strWhere, List<SqlParameter> parameters)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select OrgId,AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate ");
-            strSql.Append(" FROM OrgOrganize ");
-            Database db = DatabaseFactory.CreateDatabase();
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            if (parameters.Count > 0)
-            {
-                foreach (SqlParameter sqlParameter in parameters)
-                {
-                    dbCommand.Parameters.Add(sqlParameter);
-                }
-            }
-            return db.ExecuteDataSet(dbCommand);
-        }
+			strSql.Append(" values (");
+			strSql.Append("@AreaId,@OrgName,@OrgAddress,@OrgPhone,@EnName,@OrgFax,@OrgType,@OrgParentId,@AddTime,@Status,@EndDate,@SortNum)");
+			strSql.Append(";select @@IDENTITY");
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			db.AddInParameter(dbCommand, "AreaId", DbType.AnsiString, model.AreaId);
+			db.AddInParameter(dbCommand, "OrgName", DbType.String, model.OrgName);
+			db.AddInParameter(dbCommand, "OrgAddress", DbType.String, model.OrgAddress);
+			db.AddInParameter(dbCommand, "OrgPhone", DbType.AnsiString, model.OrgPhone);
+			db.AddInParameter(dbCommand, "EnName", DbType.String, model.EnName);
+			db.AddInParameter(dbCommand, "OrgFax", DbType.AnsiString, model.OrgFax);
+			db.AddInParameter(dbCommand, "OrgType", DbType.Byte, model.OrgType);
+			db.AddInParameter(dbCommand, "OrgParentId", DbType.Int64, model.OrgParentId);
+			db.AddInParameter(dbCommand, "AddTime", DbType.DateTime, model.AddTime);
+			db.AddInParameter(dbCommand, "Status", DbType.Byte, model.Status);
+			db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, model.EndDate);
+			db.AddInParameter(dbCommand, "SortNum", DbType.Int32, model.SortNum);
+			int result;
+			object obj = db.ExecuteScalar(dbCommand);
+			if(!int.TryParse(obj.ToString(),out result))
+			{
+				return 0;
+			}
+			return result;
+		}
+		/// <summary>
+		/// 更新一条数据
+		/// </summary>
+		public bool Update(ECommerce.Admin.Model.OrgOrganize model)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("update OrgOrganize set ");
+			strSql.Append("AreaId=@AreaId,");
+			strSql.Append("OrgName=@OrgName,");
+			strSql.Append("OrgAddress=@OrgAddress,");
+			strSql.Append("OrgPhone=@OrgPhone,");
+			strSql.Append("EnName=@EnName,");
+			strSql.Append("OrgFax=@OrgFax,");
+			strSql.Append("OrgType=@OrgType,");
+			strSql.Append("OrgParentId=@OrgParentId,");
+			strSql.Append("AddTime=@AddTime,");
+			strSql.Append("Status=@Status,");
+			strSql.Append("EndDate=@EndDate,");
+			strSql.Append("SortNum=@SortNum");
+			strSql.Append(" where OrgId=@OrgId ");
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			db.AddInParameter(dbCommand, "OrgId", DbType.Int64, model.OrgId);
+			db.AddInParameter(dbCommand, "AreaId", DbType.AnsiString, model.AreaId);
+			db.AddInParameter(dbCommand, "OrgName", DbType.String, model.OrgName);
+			db.AddInParameter(dbCommand, "OrgAddress", DbType.String, model.OrgAddress);
+			db.AddInParameter(dbCommand, "OrgPhone", DbType.AnsiString, model.OrgPhone);
+			db.AddInParameter(dbCommand, "EnName", DbType.String, model.EnName);
+			db.AddInParameter(dbCommand, "OrgFax", DbType.AnsiString, model.OrgFax);
+			db.AddInParameter(dbCommand, "OrgType", DbType.Byte, model.OrgType);
+			db.AddInParameter(dbCommand, "OrgParentId", DbType.Int64, model.OrgParentId);
+			db.AddInParameter(dbCommand, "AddTime", DbType.DateTime, model.AddTime);
+			db.AddInParameter(dbCommand, "Status", DbType.Byte, model.Status);
+			db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, model.EndDate);
+			db.AddInParameter(dbCommand, "SortNum", DbType.Int32, model.SortNum);
+			int rows=db.ExecuteNonQuery(dbCommand);
 
-        /// <summary>
-        /// 获得前几行数据
-        /// <param name="Top">int Top</param>
-        /// <param name="strWhere">查询条件 Status=@Status and Cell=@Cell order by CreateDate Desc  like写法:'%'+@Cell+'%' </param>
-        /// <param name="parameters">List<SqlParameter> parameters</param>
-        /// </summary>
-        public DataSet GetList(int Top, string strWhere, List<SqlParameter> parameters)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ");
-            if (Top > 0)
-            {
-                strSql.Append(" top " + Top.ToString());
-            }
-            strSql.Append(" OrgId,AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate ");
-            strSql.Append(" FROM OrgOrganize ");
-            Database db = DatabaseFactory.CreateDatabase();
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            if (parameters.Count > 0)
-            {
-                foreach (SqlParameter sqlParameter in parameters)
-                {
-                    dbCommand.Parameters.Add(sqlParameter);
-                }
-            }
-            return db.ExecuteDataSet(dbCommand);
-        }
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 
-        /*
-        /// <summary>
-        /// 获取记录总数
-        /// </summary>
-        public int GetRecordCount(string strWhere)
-        {
-            StringBuilder strSql=new StringBuilder();
-            strSql.Append("select count(1) FROM OrgOrganize ");
-            if(strWhere.Trim()!="")
-            {
-                strSql.Append(" where "+strWhere);
-            }
-            object obj = DbHelperSQL.GetSingle(strSql.ToString());
-            if (obj == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return Convert.ToInt32(obj);
-            }
-        }*/
-        /// <summary>
-        /// 分页获取数据列表
-        /// <param name="strWhere">查询条件 Status=@Status and Cell=@Cell  like写法:'%'+@Cell+'%' </param>
-        /// <param name="orderby">string orderby</param>
-        /// <param name="startIndex">开始页码</param>
-        /// <param name="endIndex">结束页码</param>
-        /// <param name="parameters">List<SqlParameter> parameters</param>
-        /// </summary>
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex, List<SqlParameter> parameters)
-        {
-            Database db = DatabaseFactory.CreateDatabase();
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("SELECT * FROM ( ");
-            strSql.Append(" SELECT ROW_NUMBER() OVER (");
-            if (!string.IsNullOrEmpty(orderby.Trim()))
-            {
-                strSql.Append("order by T." + orderby);
-            }
-            else
-            {
-                strSql.Append("order by T.OrgId desc");
-            }
-            strSql.Append(")AS Row, T.*  from OrgOrganize T ");
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            strSql.Append(" ) TT");
-            strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            if (parameters.Count > 0)
-            {
-                foreach (SqlParameter sqlParameter in parameters)
-                {
-                    dbCommand.Parameters.Add(sqlParameter);
-                }
-            }
-            return db.ExecuteDataSet(dbCommand);
-        }
+		/// <summary>
+		/// 删除一条数据
+		/// </summary>
+		public bool Delete(long OrgId)
+		{
+			
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("delete from OrgOrganize ");
+			strSql.Append(" where OrgId=@OrgId ");
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			db.AddInParameter(dbCommand, "OrgId", DbType.Int64,OrgId);
+			int rows=db.ExecuteNonQuery(dbCommand);
+
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		/// <summary>
+		/// 批量删除数据
+		/// </summary>
+		public bool DeleteList(string OrgIdlist )
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("delete from OrgOrganize ");
+			strSql.Append(" where OrgId in ("+OrgIdlist + ")  ");
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			int rows=db.ExecuteNonQuery(dbCommand);
+
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// 得到一个对象实体
+		/// </summary>
+		public ECommerce.Admin.Model.OrgOrganize GetModel(long OrgId)
+		{
+			
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select OrgId,AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate,SortNum from OrgOrganize ");
+			strSql.Append(" where OrgId=@OrgId ");
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			db.AddInParameter(dbCommand, "OrgId", DbType.Int64,OrgId);
+			ECommerce.Admin.Model.OrgOrganize model=null;
+			using (IDataReader dataReader = db.ExecuteReader(dbCommand))
+			{
+				if(dataReader.Read())
+				{
+					model=ReaderBind(dataReader);
+				}
+			}
+			return model;
+		}
 
 
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        public DataSet GetList(int PageSize, int PageIndex, string strWhere)
-        {
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("UP_GetRecordByPage");
-            db.AddInParameter(dbCommand, "tblName", DbType.AnsiString, "OrgOrganize");
-            db.AddInParameter(dbCommand, "fldName", DbType.AnsiString, "OrgId");
-            db.AddInParameter(dbCommand, "PageSize", DbType.Int32, PageSize);
-            db.AddInParameter(dbCommand, "PageIndex", DbType.Int32, PageIndex);
-            db.AddInParameter(dbCommand, "IsReCount", DbType.Boolean, 0);
-            db.AddInParameter(dbCommand, "OrderType", DbType.Boolean, 0);
-            db.AddInParameter(dbCommand, "strWhere", DbType.AnsiString, strWhere);
-            return db.ExecuteDataSet(dbCommand);
-        }
+		/// <summary>
+		/// 得到一个对象实体
+		/// </summary>
+		public ECommerce.Admin.Model.OrgOrganize DataRowToModel(DataRow row)
+		{
+			ECommerce.Admin.Model.OrgOrganize model=new ECommerce.Admin.Model.OrgOrganize();
+			if (row != null)
+			{
+				if(row["OrgId"]!=null && row["OrgId"].ToString()!="")
+				{
+					model.OrgId=Convert.ToInt64(row["OrgId"].ToString());
+				}
+				if(row["AreaId"]!=null)
+				{
+					model.AreaId=row["AreaId"].ToString();
+				}
+				if(row["OrgName"]!=null)
+				{
+					model.OrgName=row["OrgName"].ToString();
+				}
+				if(row["OrgAddress"]!=null)
+				{
+					model.OrgAddress=row["OrgAddress"].ToString();
+				}
+				if(row["OrgPhone"]!=null)
+				{
+					model.OrgPhone=row["OrgPhone"].ToString();
+				}
+				if(row["EnName"]!=null)
+				{
+					model.EnName=row["EnName"].ToString();
+				}
+				if(row["OrgFax"]!=null)
+				{
+					model.OrgFax=row["OrgFax"].ToString();
+				}
+				if(row["OrgType"]!=null && row["OrgType"].ToString()!="")
+				{
+					model.OrgType=Convert.ToInt32(row["OrgType"].ToString());
+				}
+				if(row["OrgParentId"]!=null && row["OrgParentId"].ToString()!="")
+				{
+					model.OrgParentId=Convert.ToInt64(row["OrgParentId"].ToString());
+				}
+				if(row["AddTime"]!=null && row["AddTime"].ToString()!="")
+				{
+					model.AddTime=Convert.ToDateTime(row["AddTime"].ToString());
+				}
+				if(row["Status"]!=null && row["Status"].ToString()!="")
+				{
+					model.Status=Convert.ToInt32(row["Status"].ToString());
+				}
+				if(row["EndDate"]!=null && row["EndDate"].ToString()!="")
+				{
+					model.EndDate=Convert.ToDateTime(row["EndDate"].ToString());
+				}
+				if(row["SortNum"]!=null && row["SortNum"].ToString()!="")
+				{
+					model.SortNum=Convert.ToInt32(row["SortNum"].ToString());
+				}
+			}
+			return model;
+		}
 
-        /// <summary>
-        /// 获得数据列表（比DataSet效率高，推荐使用）
-        /// <param name="strWhere">查询条件 Status=@Status and Cell=@Cell order by CreateDate Desc  like写法:'%'+@Cell+'%' </param>
-        /// <param name="parameters">List<SqlParameter> parameters</param>
-        /// </summary>
-        public List<Model.OrgOrganize> GetListArray(string strWhere, List<SqlParameter> parameters)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select OrgId,AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate ");
-            strSql.Append(" FROM OrgOrganize ");
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
-            if (parameters.Count > 0)
-            {
-                foreach (SqlParameter sqlParameter in parameters)
-                {
-                    dbCommand.Parameters.Add(sqlParameter);
-                }
-            }
-            List<Model.OrgOrganize> list = new List<Model.OrgOrganize>();
-            using (IDataReader dataReader = db.ExecuteReader(dbCommand))
-            {
-                while (dataReader.Read())
-                {
-                    list.Add(ReaderBind(dataReader));
-                }
-            }
-            return list;
-        }
+		/// <summary>
+		/// 获得数据列表
+		/// <param name="strWhere">查询条件 Status=@Status and Cell=@Cell order by CreateDate Desc  like写法:'%'+@Cell+'%' </param>
+		/// <param name="parameters">List<SqlParameter> parameters</param>
+		/// </summary>
+		public DataSet GetList(string strWhere, List<SqlParameter> parameters)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select OrgId,AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate,SortNum ");
+			strSql.Append(" FROM OrgOrganize ");
+			Database db = DatabaseFactory.CreateDatabase();
+			if(strWhere.Trim()!="")
+			{
+				strSql.Append(" where "+strWhere);
+			}
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			if(parameters.Count > 0)
+			{
+				foreach (SqlParameter sqlParameter in parameters)
+				{
+					dbCommand.Parameters.Add(sqlParameter);
+				}
+			}
+			return db.ExecuteDataSet(dbCommand);
+		}
+
+		/// <summary>
+		/// 获得前几行数据
+		/// <param name="Top">int Top</param>
+		/// <param name="strWhere">查询条件 Status=@Status and Cell=@Cell order by CreateDate Desc  like写法:'%'+@Cell+'%' </param>
+		/// <param name="parameters">List<SqlParameter> parameters</param>
+		/// </summary>
+		public DataSet GetList(int Top,string strWhere, List<SqlParameter> parameters)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select ");
+			if(Top>0)
+			{
+				strSql.Append(" top "+Top.ToString());
+			}
+			strSql.Append(" OrgId,AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate,SortNum ");
+			strSql.Append(" FROM OrgOrganize ");
+			Database db = DatabaseFactory.CreateDatabase();
+			if(strWhere.Trim()!="")
+			{
+				strSql.Append(" where "+strWhere);
+			}
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			if(parameters.Count > 0)
+			{
+				foreach (SqlParameter sqlParameter in parameters)
+				{
+					dbCommand.Parameters.Add(sqlParameter);
+				}
+			}
+			return db.ExecuteDataSet(dbCommand);
+		}
+
+		/*
+		/// <summary>
+		/// 获取记录总数
+		/// </summary>
+		public int GetRecordCount(string strWhere)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select count(1) FROM OrgOrganize ");
+			if(strWhere.Trim()!="")
+			{
+				strSql.Append(" where "+strWhere);
+			}
+			object obj = DbHelperSQL.GetSingle(strSql.ToString());
+			if (obj == null)
+			{
+				return 0;
+			}
+			else
+			{
+				return Convert.ToInt32(obj);
+			}
+		}*/
+		/// <summary>
+		/// 分页获取数据列表
+		/// <param name="strWhere">查询条件 Status=@Status and Cell=@Cell  like写法:'%'+@Cell+'%' </param>
+		/// <param name="orderby">string orderby</param>
+		/// <param name="startIndex">开始页码</param>
+		/// <param name="endIndex">结束页码</param>
+		/// <param name="parameters">List<SqlParameter> parameters</param>
+		/// </summary>
+		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex, List<SqlParameter> parameters)
+		{
+			Database db = DatabaseFactory.CreateDatabase();
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("SELECT * FROM ( ");
+			strSql.Append(" SELECT ROW_NUMBER() OVER (");
+			if (!string.IsNullOrEmpty(orderby.Trim()))
+			{
+				strSql.Append("order by T." + orderby );
+			}
+			else
+			{
+				strSql.Append("order by T.OrgId desc");
+			}
+			strSql.Append(")AS Row, T.*  from OrgOrganize T ");
+			if(strWhere.Trim()!="")
+			{
+				strSql.Append(" where "+strWhere);
+			}
+			strSql.Append(" ) TT");
+			strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			if(parameters.Count > 0)
+			{
+				foreach (SqlParameter sqlParameter in parameters)
+				{
+					dbCommand.Parameters.Add(sqlParameter);
+				}
+			}
+			return db.ExecuteDataSet(dbCommand);
+		}
+
+		
+		/// <summary>
+		/// 分页获取数据列表
+		/// </summary>
+		public DataSet GetList(int PageSize,int PageIndex,string strWhere)
+		{
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetStoredProcCommand("UP_GetRecordByPage");
+			db.AddInParameter(dbCommand, "tblName", DbType.AnsiString, "OrgOrganize");
+			db.AddInParameter(dbCommand, "fldName", DbType.AnsiString, "OrgId");
+			db.AddInParameter(dbCommand, "PageSize", DbType.Int32, PageSize);
+			db.AddInParameter(dbCommand, "PageIndex", DbType.Int32, PageIndex);
+			db.AddInParameter(dbCommand, "IsReCount", DbType.Boolean, 0);
+			db.AddInParameter(dbCommand, "OrderType", DbType.Boolean, 0);
+			db.AddInParameter(dbCommand, "strWhere", DbType.AnsiString, strWhere);
+			return db.ExecuteDataSet(dbCommand);
+		}
+
+		/// <summary>
+		/// 获得数据列表（比DataSet效率高，推荐使用）
+		/// <param name="strWhere">查询条件 Status=@Status and Cell=@Cell order by CreateDate Desc  like写法:'%'+@Cell+'%' </param>
+		/// <param name="parameters">List<SqlParameter> parameters</param>
+		/// </summary>
+		public List<ECommerce.Admin.Model.OrgOrganize> GetListArray(string strWhere, List<SqlParameter> parameters)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select OrgId,AreaId,OrgName,OrgAddress,OrgPhone,EnName,OrgFax,OrgType,OrgParentId,AddTime,Status,EndDate,SortNum ");
+			strSql.Append(" FROM OrgOrganize ");
+			if(strWhere.Trim()!="")
+			{
+				strSql.Append(" where "+strWhere);
+			}
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetSqlStringCommand(strSql.ToString());
+			if(parameters.Count > 0)
+			{
+				foreach (SqlParameter sqlParameter in parameters)
+				{
+					dbCommand.Parameters.Add(sqlParameter);
+				}
+			}
+			List<ECommerce.Admin.Model.OrgOrganize> list = new List<ECommerce.Admin.Model.OrgOrganize>();
+			using (IDataReader dataReader = db.ExecuteReader(dbCommand))
+			{
+				while (dataReader.Read())
+				{
+					list.Add(ReaderBind(dataReader));
+				}
+			}
+			return list;
+		}
 
 
-        /// <summary>
-        /// 对象实体绑定数据
-        /// </summary>
-        public Model.OrgOrganize ReaderBind(IDataReader dataReader)
-        {
-            Model.OrgOrganize model = new Model.OrgOrganize();
-            object ojb;
-            ojb = dataReader["OrgId"];
-            if (ojb != null && ojb != DBNull.Value)
-            {
-                model.OrgId = Convert.ToInt64(ojb);
-            }
-            model.AreaId = dataReader["AreaId"].ToString();
-            model.OrgName = dataReader["OrgName"].ToString();
-            model.OrgAddress = dataReader["OrgAddress"].ToString();
-            model.OrgPhone = dataReader["OrgPhone"].ToString();
-            model.EnName = dataReader["EnName"].ToString();
-            model.OrgFax = dataReader["OrgFax"].ToString();
-            ojb = dataReader["OrgType"];
-            if (ojb != null && ojb != DBNull.Value)
-            {
-                model.OrgType = Convert.ToInt32(ojb);
-            }
-            ojb = dataReader["OrgParentId"];
-            if (ojb != null && ojb != DBNull.Value)
-            {
-                model.OrgParentId = Convert.ToInt64(ojb);
-            }
-            ojb = dataReader["AddTime"];
-            if (ojb != null && ojb != DBNull.Value)
-            {
-                model.AddTime = Convert.ToDateTime(ojb);
-            }
-            ojb = dataReader["Status"];
-            if (ojb != null && ojb != DBNull.Value)
-            {
-                model.Status = Convert.ToInt32(ojb);
-            }
-            ojb = dataReader["EndDate"];
-            if (ojb != null && ojb != DBNull.Value)
-            {
-                model.EndDate = Convert.ToDateTime(ojb);
-            }
-            return model;
-        }
+		/// <summary>
+		/// 对象实体绑定数据
+		/// </summary>
+		public ECommerce.Admin.Model.OrgOrganize ReaderBind(IDataReader dataReader)
+		{
+			ECommerce.Admin.Model.OrgOrganize model=new ECommerce.Admin.Model.OrgOrganize();
+			object ojb; 
+			ojb = dataReader["OrgId"];
+			if(ojb != null && ojb != DBNull.Value)
+			{
+				model.OrgId=Convert.ToInt64(ojb);
+			}
+			model.AreaId=dataReader["AreaId"].ToString();
+			model.OrgName=dataReader["OrgName"].ToString();
+			model.OrgAddress=dataReader["OrgAddress"].ToString();
+			model.OrgPhone=dataReader["OrgPhone"].ToString();
+			model.EnName=dataReader["EnName"].ToString();
+			model.OrgFax=dataReader["OrgFax"].ToString();
+			ojb = dataReader["OrgType"];
+			if(ojb != null && ojb != DBNull.Value)
+			{
+				model.OrgType=Convert.ToInt32(ojb);
+			}
+			ojb = dataReader["OrgParentId"];
+			if(ojb != null && ojb != DBNull.Value)
+			{
+				model.OrgParentId=Convert.ToInt64(ojb);
+			}
+			ojb = dataReader["AddTime"];
+			if(ojb != null && ojb != DBNull.Value)
+			{
+				model.AddTime=Convert.ToDateTime(ojb);
+			}
+			ojb = dataReader["Status"];
+			if(ojb != null && ojb != DBNull.Value)
+			{
+				model.Status=Convert.ToInt32(ojb);
+			}
+			ojb = dataReader["EndDate"];
+			if(ojb != null && ojb != DBNull.Value)
+			{
+				model.EndDate=Convert.ToDateTime(ojb);
+			}
+			ojb = dataReader["SortNum"];
+			if(ojb != null && ojb != DBNull.Value)
+			{
+				model.SortNum=Convert.ToInt32(ojb);
+			}
+			return model;
+		}
 
-        #endregion  Method
+		#endregion  Method
 
         #region  扩展方法
 
@@ -1129,6 +1141,6 @@ namespace ECommerce.Admin.DAL
         }
 
         #endregion
-    }
+	}
 }
 

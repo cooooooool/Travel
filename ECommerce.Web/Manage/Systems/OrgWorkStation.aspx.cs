@@ -27,7 +27,7 @@ namespace ECommerce.Web.Manage.Systems
             int pageNum = 1;
             int pageSize = 10;
             //分页查询语句
-            string sql = "select row_number() over(order by  oo.Addtime desc,oo.OrgId DESC) as rownum,oo.* FROM OrgOrganize oo where oo.[Status]=1 and OrgType=1 ";
+            string sql = "select row_number() over(order by oo.SortNum desc, oo.Addtime desc,oo.OrgId DESC) as rownum,oo.* FROM OrgOrganize oo where oo.[Status]=1 and OrgType=1 ";
             //sql += " left join SWCompany sw on sw.[SWOrgId]=oo.[OrgId] left join OrgOrganize os on sw.[COrgId]=os.[OrgId] ";
             //sql += "   where oo.[Status]=1 and oo.[OrgType]=5 and oo.AreaId in (select AreaId from [dbo].[getOrgAreaChild]('" + Request.QueryString["AreaId"] + "')) ";
             var name = string.Empty;

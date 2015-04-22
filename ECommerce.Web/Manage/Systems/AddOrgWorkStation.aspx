@@ -46,12 +46,27 @@
                         <input type="text" id="txtEndDate" placeholder="到期时间 2114-01-01" runat="server" onfocus="WdatePicker()" />
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword"><%--<span style="color: red;">*</span>--%>排序：</label>
+                    <div class="controls">
+                        <input type="text" id="txtSortNum" placeholder="数字" runat="server" onkeyup="check(this);" value="0" />
+                        数值大靠前
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
             <asp:Button ID="btnSub" CssClass="btn btn-success" runat="server" Text="确定" OnClick="btnSub_Click" />
             <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
         </div>
+        <script>
+            function check(obj) {
+                if (isNaN(obj.value)) {
+                    alert("请输入数字");
+                    obj.value = "";
+                }
+            }
+        </script>
     </form>
 </body>
 </html>

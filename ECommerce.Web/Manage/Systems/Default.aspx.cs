@@ -1,14 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Text;
-using System.Web;
 using ECommerce.Admin.Model;
 using ECommerce.Lib.Security;
 using Microsoft.Practices.EnterpriseLibrary.Data;
-using System.Data.SqlClient;
-using System.Collections.Generic;
 
-namespace ECommerce.Web.Manage
+namespace ECommerce.Web.Manage.Systems
 {
     public partial class Default : UI.WebPage
     {

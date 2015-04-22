@@ -187,7 +187,7 @@ namespace ECommerce.Web.Manage.Pkg
                             StringBuilder strSqlstas = new StringBuilder();
                             strSqlstas.Append("select StaPackage.*,OrgOrganize.OrgId,OrgOrganize.OrgName,OrgOrganize.EnName FROM StaPackage join OrgPkgList on OrgPkgList.SPID=StaPackage.SPID ");
                             strSqlstas.Append(" join OrgOrganize on OrgOrganize.OrgId=StaPackage.OrgId ");
-                            strSqlstas.Append(" where OrgPkgList.RPID='" + rpmodel.RPID + "' and OrgPkgList.OrgId='" + orgmodel.OrgId + "'  and OrgOrganize.OrgId!='" + nsorgid + "' ");
+                            strSqlstas.Append(" where OrgPkgList.RPID='" + rpmodel.RPID + "' and OrgPkgList.OrgId='" + orgmodel.OrgId + "'  and OrgOrganize.OrgId!='" + nsorgid + "' order by OrgOrganize.SortNum desc ");
 
                             DbCommand dbCommandstas = db.GetSqlStringCommand(strSqlstas.ToString());
 

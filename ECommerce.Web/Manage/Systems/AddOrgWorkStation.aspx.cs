@@ -38,6 +38,7 @@ namespace ECommerce.Web.Manage.Systems
                     txtManPhone.Value = dt.Rows[0]["OrgPhone"].ToString();
                     txtEndDate.Value = Convert.ToDateTime(dt.Rows[0]["EndDate"]).ToString("yyyy-MM-dd");
                     txtEnName.Value = dt.Rows[0]["EnName"].ToString();
+                    txtSortNum.Value = dt.Rows[0]["SortNum"].ToString();
                 }
             }
             catch (Exception)
@@ -54,6 +55,7 @@ namespace ECommerce.Web.Manage.Systems
             var managerPhone = txtManPhone.Value.Trim();
             var enddate = txtEndDate.Value.Trim();
             var enName = txtEnName.Value.Trim();
+            var sortNum = txtSortNum.Value.Trim();
             if (string.IsNullOrEmpty(name))
             {
                 //Page.ClientScript.RegisterStartupScript(GetType(), "", "<script>alert('请填写姓名！');window.parent.$modal.destroy();</script>");
@@ -119,6 +121,7 @@ namespace ECommerce.Web.Manage.Systems
                     dt.OrgAddress = txtManager.Value;
                     dt.OrgPhone = txtManPhone.Value;
                     dt.EndDate = Convert.ToDateTime(enddate);
+                    dt.SortNum = Convert.ToInt32(sortNum);
                     if (_dataDal.Exists(Convert.ToInt32(Request.QueryString["OrgId"]), txtName.Value))
                     {
                         Page.ClientScript.RegisterStartupScript(GetType(), "", "<script>alert('分站已经存在！');</script>");
@@ -152,7 +155,8 @@ namespace ECommerce.Web.Manage.Systems
                     Status = 1,
                     OrgType = 1,
                     EndDate = Convert.ToDateTime(enddate),
-                    EnName = enName
+                    EnName = enName,
+                    SortNum = Convert.ToInt32(sortNum)
                 };
                 if (_dataDal.Exists(0, name))
                 {

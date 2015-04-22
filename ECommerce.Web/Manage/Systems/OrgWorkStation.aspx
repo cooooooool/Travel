@@ -65,6 +65,7 @@
                         <th nowrap="nowrap">英文名称</th>
                         <th nowrap="nowrap">负责人</th>
                         <th nowrap="nowrap">负责人电话</th>
+                        <th nowrap="nowrap">排序</th>
                         <th nowrap="nowrap">创建时间</th>
                         <th nowrap="nowrap">到期时间</th>
                         <th nowrap="nowrap" class="act">操作</th>
@@ -79,6 +80,7 @@
                                 <td style="text-align: center"><%#Eval("EnName")%></td>
                                 <td style="text-align: center"><%#Eval("OrgAddress")%></td>
                                 <td style="text-align: center"><%#Eval("OrgPhone")%></td>
+                                <td style="text-align: center"><%#Eval("SortNum")%></td>
                                 <td style="text-align: center"><%#Convert.ToDateTime(Eval("Addtime")).ToString("yyyy-MM-dd")%></td>
                                 <td style="text-align: center"><%#Convert.ToDateTime(Eval("EndDate"))<DateTime.Now?"<span class=\"label label-important\">已到期</span>":Convert.ToDateTime(Eval("EndDate")).ToString("yyyy-MM-dd")%></td>
                                 <td style="text-align: center">
