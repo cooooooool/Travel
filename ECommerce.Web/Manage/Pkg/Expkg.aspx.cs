@@ -9,6 +9,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ECommerce.Lib;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 
 namespace ECommerce.Web.Manage.Pkg
@@ -1280,7 +1281,8 @@ namespace ECommerce.Web.Manage.Pkg
                             string[] paths = new string[] { Server.MapPath("/Packages/" + fname) };
                             string error = "";
                             //打包
-                            Lib.MuFileCompress.Pack(paths, Server.MapPath("/Packages/") + fname + ".zip", 6, "",
+                            var mfc = new MuFileCompress();
+                            mfc.Pack(paths, Server.MapPath("/Packages/") + fname + ".zip", 6, "",
                                 out error);
                             Directory.Delete(Server.MapPath("/Packages/" + fname), true);
                             if (error == "")
@@ -1301,7 +1303,8 @@ namespace ECommerce.Web.Manage.Pkg
                         }
                         catch (Exception ee)
                         {
-                            Response.Write("1|~|系统错误,请联系管理员!");
+                            Response.Write("1|~|" + ee.Message);
+                            //Response.Write("1|~|系统错误,请联系管理员!");
                             Response.End();
                         }
                     }

@@ -24,6 +24,7 @@
         var $modal;
         var $op;
         var $tmp;
+        var $ajaxget;
         $(document).ready(function () {
             $('body').layout({ resizable: false });
         });
@@ -36,6 +37,10 @@
         $(".cancel-export").live("click", function () {
             if (confirm("正在导出中如果强制结束的话，在服务端该任务没有释放前继续导出其他会操作缓慢，确定要强制结束吗？")) {
                 window.top.$modal.destroy();
+                try {
+                    $ajaxget.abort();
+                } catch (e) {
+                } 
             }
             return false;
         });

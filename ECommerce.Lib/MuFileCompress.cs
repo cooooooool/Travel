@@ -8,16 +8,6 @@ namespace ECommerce.Lib
     public class MuFileCompress
     {
         /// <summary>
-        /// 所有文件缓存
-        /// </summary>
-        static List<string[]> files;
-        static string root = "";
-        /// <summary>
-        /// 所有空目录缓存
-        /// </summary>
-        static List<string[]> paths;
-
-        /// <summary>
         ///  将多个文件或文件夹打包
         /// </summary>
         /// <param name="filesOrDirectoriesPaths">被打包文件的路径</param>
@@ -26,11 +16,11 @@ namespace ECommerce.Lib
         /// <param name="strPassword">打包密码</param>
         /// <param name="error">打包过程中的错误信息</param>
         /// <returns>是否打包成功</returns>
-        public static bool Pack(string[] filesOrDirectoriesPaths, string strZipPath, int intZipLevel, string strPassword, out string error)
+        public bool Pack(string[] filesOrDirectoriesPaths, string strZipPath, int intZipLevel, string strPassword, out string error)
         {
-            files = new List<string[]>();
-            paths = new List<string[]>();
-            root = "";
+            var files = new List<string[]>();
+            var paths = new List<string[]>();
+            var root = "";
             if (filesOrDirectoriesPaths.Length > 0) // get all files path
             {
                 foreach (string filename in filesOrDirectoriesPaths)
@@ -42,7 +32,7 @@ namespace ECommerce.Lib
                     else if (Directory.Exists(filename))
                     {
                         root = filename.Substring(0, filename.LastIndexOf("\\") + 1);
-                        GetAllDirectories(filename);
+                        GetAllDirectories(filename, files, paths, root);
                     }
                     else
                     {
@@ -64,7 +54,7 @@ namespace ECommerce.Lib
                     string strFileName = strFile[0].Replace(strFile[1], String.Empty);
 
                     ZipEntry entry = new ZipEntry(strFileName);
-                    entry.IsUnicodeText = true; 
+                    entry.IsUnicodeText = true;
                     entry.DateTime = DateTime.Now;
                     zipOutputStream.PutNextEntry(entry);
                     zipOutputStream.Write(buffer, 0, buffer.Length);
@@ -81,7 +71,7 @@ namespace ECommerce.Lib
             foreach (string[] emptyPath in paths)
             {
                 ZipEntry entry = new ZipEntry(emptyPath[0].Replace(emptyPath[1], string.Empty) + "/");
-                entry.IsUnicodeText = true; 
+                entry.IsUnicodeText = true;
                 zipOutputStream.PutNextEntry(entry);
             }
             paths.Clear();
@@ -99,7 +89,7 @@ namespace ECommerce.Lib
         ///<param name="password">解包密码</param>
         /// <param name="error">异常信息</param>
         ///<returns>是否解包成功</returns>
-        public static bool Unpack(string zipfilename, string UnZipDir, string password, out string error)
+        public bool Unpack(string zipfilename, string UnZipDir, string password, out string error)
         {
             //判断待解包文件路径
             if (!File.Exists(zipfilename))
@@ -175,12 +165,12 @@ namespace ECommerce.Lib
         /// 取得目录下所有文件及文件夹，分别存入files及paths
         /// </summary>
         /// <param name="rootPath">根目录</param>
-        private static void GetAllDirectories(string rootPath)
+        private void GetAllDirectories(string rootPath, List<string[]> files, List<string[]> paths, string root)
         {
             string[] subPaths = Directory.GetDirectories(rootPath);//得到所有子目录
             foreach (string path in subPaths)
             {
-                GetAllDirectories(path);//对每一个字目录做与根目录相同的操作：即找到子目录并将当前目录的文件名存入List
+                GetAllDirectories(path, files, paths, root);//对每一个字目录做与根目录相同的操作：即找到子目录并将当前目录的文件名存入List
             }
             string[] filess = Directory.GetFiles(rootPath);
             foreach (string file in filess)

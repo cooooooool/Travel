@@ -225,8 +225,10 @@ namespace ECommerce.Web.Manage.Pkg
                                     File.WriteAllText(storePath + "/config.json", json.ToString(), Encoding.UTF8);
                                     string[] paths = new string[] { Server.MapPath("/Packages/" + fname) };
                                     string error = "";
+
+                                    var mfc = new MuFileCompress();
                                     //打包
-                                    MuFileCompress.Pack(paths, Server.MapPath("/Packages/") + fname + ".zip", 6, "",
+                                    mfc.Pack(paths, Server.MapPath("/Packages/") + fname + ".zip", 6, "",
                                         out error);
                                     Directory.Delete(Server.MapPath("/Packages/" + fname), true);
                                     if (error == "")

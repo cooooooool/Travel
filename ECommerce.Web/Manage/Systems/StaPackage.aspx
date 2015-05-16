@@ -27,7 +27,7 @@
                 window.top.$modal = window.top.$.scojs_modal({ content: '<div class=\"form-horizontal\"><div class=\"modal-body\"><p style=\"text-align: center;font-size: 22px;\">资源包正在拼命的生成中,请稍候(时间大概2-15分钟)...</p></div></div>' });
                 window.top.$modal.show();
                 window.top.$(".modal-header a").html("<a class=\"cancel-export\" href=\"#\">×</a><h3>&nbsp;</h3>");
-                $.ajax({
+                window.top.$ajaxget = $.ajax({
                     type: 'POST', url: "/Manage/Pkg/ExOrgpkg.aspx?rpid=" + rpid + "&orgid=" + orgid, success: function (data) {
                         window.top.$modal.destroy();
                         var arr = data.split("|~|");
@@ -48,7 +48,7 @@
                 window.top.$modal = window.top.$.scojs_modal({ content: '<div class=\"form-horizontal\"><div class=\"modal-body\"><p style=\"text-align: center;font-size: 22px;\">资源包正在拼命的生成中,请稍候(时间大概2-15分钟)...</p></div></div>' });
                 window.top.$modal.show();
                 window.top.$(".modal-header a").html("<a class=\"cancel-export\" href=\"#\">×</a><h3>&nbsp;</h3>");
-                $.ajax({
+                window.top.$ajaxget = $.ajax({
                     type: 'POST', url: "/Manage/Pkg/ExOrgUpkg.aspx?rpid=" + rpid + "&orgid=" + orgid, success: function (data) {
                         window.top.$modal.destroy();
                         var arr = data.split("|~|");

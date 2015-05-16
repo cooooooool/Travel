@@ -57,7 +57,7 @@
                 window.top.$modal = window.top.$.scojs_modal({ content: '<div class=\"form-horizontal\"><div class=\"modal-body\"><p style=\"text-align: center;font-size: 22px;\">资源包正在拼命的生成中,请稍候...</p></div></div>' });
                 window.top.$modal.show();
                 window.top.$(".modal-header a").html("<a class=\"cancel-export\" href=\"#\">×</a><h3>&nbsp;</h3>");
-                $.ajax({
+                window.top.$ajaxget = $.ajax({
                     type: 'POST',
                     url: "/Manage/Pkg/Expkg.aspx?spid=" + spid,
                     success: function(data) {
