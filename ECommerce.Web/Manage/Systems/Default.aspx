@@ -32,6 +32,13 @@
             window.top.$modal = window.top.$.scojs_modal({ remote: url, title: title });
             window.top.$modal.show();
         }
+
+        $(".cancel-export").live("click", function () {
+            if (confirm("正在导出中如果强制结束的话，在服务端该任务没有释放前继续导出其他会操作缓慢，确定要强制结束吗？")) {
+                window.top.$modal.destroy();
+            }
+            return false;
+        });
     </script>
     <script src="/themes/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="/themes/plugins/adminjs/admin.page.js"></script>

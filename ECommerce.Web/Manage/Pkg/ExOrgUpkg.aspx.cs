@@ -35,6 +35,7 @@ namespace ECommerce.Web.Manage.Pkg
             ePath = Server.MapPath("/UploadFiles/");
             if (!IsPostBack)
             {
+                string datatime = DateTime.Now.ToString("MMddHHmmssfff");
                 var rpid = Request.QueryString["rpid"];
                 var orgid = Request.QueryString["orgid"];
                 if (!string.IsNullOrEmpty(orgid) && !string.IsNullOrEmpty(rpid))
@@ -66,35 +67,35 @@ namespace ECommerce.Web.Manage.Pkg
 
                                     #region 导出
 
-                                    var fname = rpmodel.RPName + "-" + orgmodel.OrgName + "-" + orgmodel.OrgId + "-" +
-                                                CurrentUser.UId + "-update";
+                                    var fname = rpmodel.RPName + "-" + orgmodel.OrgName + "-update" + "-" + datatime +
+                                                CurrentUser.UId;
                                     var storePath = Server.MapPath("/Packages/" + fname);
-                                    if (Directory.Exists(storePath)) //判断是否存在      
-                                    {
-                                        try
-                                        {
-                                            Directory.Delete(storePath, true);
-                                        }
-                                        catch (Exception)
-                                        {
-                                            Response.Write("1|~|文件正在使用中,或上次的导出操作未完成,请稍后再试!");
-                                            Response.End();
-                                        }
+                                    //if (Directory.Exists(storePath)) //判断是否存在      
+                                    //{
+                                    //    try
+                                    //    {
+                                    //        Directory.Delete(storePath, true);
+                                    //    }
+                                    //    catch (Exception)
+                                    //    {
+                                    //        Response.Write("1|~|文件正在使用中,或上次的导出操作未完成,请稍后再试!");
+                                    //        Response.End();
+                                    //    }
 
-                                    }
-                                    var fizip = new FileInfo(Server.MapPath("/Packages/" + fname + ".zip"));
-                                    if (fizip.Exists)
-                                    {
-                                        try
-                                        {
-                                            fizip.Delete();
-                                        }
-                                        catch (Exception)
-                                        {
-                                            Response.Write("1|~|文件正在使用中,或上次的导出操作未完成,请稍后再试!");
-                                            Response.End();
-                                        }
-                                    }
+                                    //}
+                                    //var fizip = new FileInfo(Server.MapPath("/Packages/" + fname + ".zip"));
+                                    //if (fizip.Exists)
+                                    //{
+                                    //    try
+                                    //    {
+                                    //        fizip.Delete();
+                                    //    }
+                                    //    catch (Exception)
+                                    //    {
+                                    //        Response.Write("1|~|文件正在使用中,或上次的导出操作未完成,请稍后再试!");
+                                    //        Response.End();
+                                    //    }
+                                    //}
                                     storePath = Path.Combine(storePath, "data\\apps\\com.JT.bailianchiadv\\yantu");
                                     Directory.CreateDirectory(storePath);
                                     Directory.CreateDirectory(storePath + "/image");

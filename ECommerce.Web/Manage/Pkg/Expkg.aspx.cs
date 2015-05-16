@@ -33,6 +33,7 @@ namespace ECommerce.Web.Manage.Pkg
             var pkgPath = Server.MapPath("/Packages/");
             if (!IsPostBack)
             {
+                string datatime = DateTime.Now.ToString("MMddHHmmssfff");
                 var spid = Request.QueryString["spid"];
                 if (!string.IsNullOrEmpty(spid))
                 {
@@ -45,17 +46,18 @@ namespace ECommerce.Web.Manage.Pkg
                             var rpkgmodel = _rootPackageDal.GetModel(Convert.ToInt32(spmodel.RPID));
                             var orgmodel = _orgOrganizeDal.GetModel(Convert.ToInt64(spmodel.OrgId));
 
-                            var fname = rpkgmodel.RPName + "-" + orgmodel.OrgName + "-" + orgmodel.OrgId + "-" + CurrentUser.UId;
+                            var fname = rpkgmodel.RPName + "-" + orgmodel.OrgName + "-" + datatime +
+                                                CurrentUser.UId;
                             var storePath = Server.MapPath("/Packages/" + fname);
-                            if (Directory.Exists(storePath)) //判断是否存在      
-                            {
-                                Directory.Delete(storePath, true);
-                            }
-                            var fizip = new FileInfo(Server.MapPath("/Packages/" + rpkgmodel.RPName + "-" + orgmodel.OrgName + "-" + spid + "-" + CurrentUser.UId + ".zip"));
-                            if (fizip.Exists)
-                            {
-                                fizip.Delete();
-                            }
+                            //if (Directory.Exists(storePath)) //判断是否存在      
+                            //{
+                            //    Directory.Delete(storePath, true);
+                            //}
+                            //var fizip = new FileInfo(Server.MapPath("/Packages/" + rpkgmodel.RPName + "-" + orgmodel.OrgName + "-" + spid + "-" + CurrentUser.UId + ".zip"));
+                            //if (fizip.Exists)
+                            //{
+                            //    fizip.Delete();
+                            //}
                             storePath = Path.Combine(storePath, "data\\apps\\com.JT.bailianchiadv\\yantu");
                             Directory.CreateDirectory(storePath);
                             Directory.CreateDirectory(storePath + "/image");
@@ -1278,12 +1280,12 @@ namespace ECommerce.Web.Manage.Pkg
                             string[] paths = new string[] { Server.MapPath("/Packages/" + fname) };
                             string error = "";
                             //打包
-                            Lib.MuFileCompress.Pack(paths, Server.MapPath("/Packages/") + rpkgmodel.RPName + "-" + orgmodel.OrgName + "-" + spid + "-" + CurrentUser.UId + ".zip", 6, "",
+                            Lib.MuFileCompress.Pack(paths, Server.MapPath("/Packages/") + fname + ".zip", 6, "",
                                 out error);
                             Directory.Delete(Server.MapPath("/Packages/" + fname), true);
                             if (error == "")
                             {
-                                Response.Write("0|~|/Packages/" + rpkgmodel.RPName + "-" + orgmodel.OrgName + "-" + spid + "-" + CurrentUser.UId + ".zip");
+                                Response.Write("0|~|/Packages/" + fname + ".zip");
                                 //DownLoadAttBytes(Server.MapPath("/Packages/") + spmodel.SPPath + ".zip",
                                 //    rpkgmodel.RPName + "-" + orgmodel.OrgName + "-" + spid + ".zip");
                             }
