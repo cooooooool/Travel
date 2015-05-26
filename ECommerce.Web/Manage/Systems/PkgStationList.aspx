@@ -44,23 +44,32 @@
             return false;
         }
         function admitData(sspid, type) {
-            window.top.$op = this.window;
-            window.top.$modal = window.top.$.scojs_modal({ content: '<div class=\"form-horizontal\"><div class=\"modal-body\"><p style=\"text-align: center;font-size: 22px;\">资源包正在拼命的生成中,请稍候(时间大概2-15分钟)...</p></div></div>' });
-            window.top.$modal.show();
-            window.top.$(".modal-header a").remove();
-            $.ajax({
-                type: 'POST',
-                url: '/Manage/Pkg/Ajax_AdmitPkg.aspx?sspid=' + sspid + "&type=" + type,
-                success: function (data) {
-                    window.top.$modal.destroy();
-                    var arr = data.split("|~|");
-                    if (arr[0] == 0) {
-                        window.location = window.location;
-                    } else {
-                        alert(arr[1]);
+            var msg = "";
+            if ("1"==type) {
+                msg = "通过后该站点内容将锁定为正式发布内容，无法修改，确定通过吗？";
+            } else if ("2" == type) {
+                msg = "退回后该站点编辑可继续修改编辑已经发布的内容，确定退回吗？";
+            }
+            if (confirm(msg)) {
+                window.top.$op = this.window;
+                window.top.$modal = window.top.$.scojs_modal({ content: '<div class=\"form-horizontal\"><div class=\"modal-body\"><p style=\"text-align: center;font-size: 22px;\">资源包正在拼命的生成中,请稍候(时间大概2-15分钟)...</p></div></div>' });
+                window.top.$modal.show();
+                window.top.$(".modal-header a").remove();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Manage/Pkg/Ajax_AdmitPkg.aspx?sspid=' + sspid + "&type=" + type,
+                    success: function(data) {
+                        window.top.$modal.destroy();
+                        var arr = data.split("|~|");
+                        if (arr[0] == 0) {
+                            window.location = window.location;
+                        } else {
+                            alert(arr[1]);
+                        }
                     }
-                }
-            });
+                });
+            }
+            return false;
         }
         function openModal(url, title) {
             window.top.$op = this.window;
