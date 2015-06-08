@@ -100,16 +100,17 @@ namespace ECommerce.Web.Manage.VisitLogs
             //    edate = Text1.Value;
             //    sql += " and VisitDate<='" + Convert.ToDateTime(Text1.Value) + "' ";
             //}
-            sql += " group by VisitLog.IID) a on Infos.IID=a.IID join TempInfo on TempInfo.TIID=Infos.TIID join InfoType on InfoType.ITID=TempInfo.ITID join StaPackage on StaPackage.SPID=InfoType.SPID ";
+            sql += " group by VisitLog.IID) a on Infos.IID=a.IID join TempInfo on TempInfo.TIID=Infos.TIID left join InfoType on InfoType.ITID=TempInfo.ITID join StaPackage on StaPackage.SPID=InfoType.SPID ";
             var rpid = string.Empty;
             if (!string.IsNullOrEmpty(ddlSendType.SelectedValue) && "-1" != ddlSendType.SelectedValue && !string.IsNullOrEmpty(DropDownList1.SelectedValue) && "-1" != DropDownList1.SelectedValue)
             {
                 rpid = ddlSendType.SelectedValue;
                 sql += " and StaPackage.SPID in (select SPID from OrgPkgList where RPID='" + rpid + "' and OrgId='" + DropDownList1.SelectedValue + "') ";
             }
-            sql += " join OrgOrganize on OrgOrganize.OrgId=StaPackage.OrgId join RootPackage on RootPackage.RPID=StaPackage.RPID where 1=1 ";
+            sql += " left join OrgOrganize on OrgOrganize.OrgId=StaPackage.OrgId left join RootPackage on RootPackage.RPID=StaPackage.RPID where 1=1 ";
             if (!string.IsNullOrEmpty(ddlSendType.SelectedValue) && "-1" != ddlSendType.SelectedValue)
             {
+                rpid = ddlSendType.SelectedValue;
                 sql += " and RootPackage.RPID ='" + rpid + "' ";
             }
             var sdate = string.Empty;
