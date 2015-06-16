@@ -22,6 +22,9 @@ using System.Collections.Generic;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System.Data.Common;
+using System.IO;
+using System.Web;
+
 namespace ECommerce.Admin.DAL
 {
     /// <summary>
@@ -553,6 +556,29 @@ namespace ECommerce.Admin.DAL
 
                     #region 删除分类及资讯
 
+                    #region 
+
+                    var AttaList = new StringBuilder();
+                    AttaList.Append(" select * from AttaList where ");
+                    AttaList.Append(
+                        " IID in(select IID from dbo.Infos where TIID in (select TIID from dbo.TempInfo where ITID=" +
+                        model.ITID + " )); ");
+                    DbCommand dbComAttList = db.GetSqlStringCommand(AttaList.ToString());
+                    var dtAttList = db.ExecuteDataSet(dbComAttList, trans).Tables[0];
+
+                    var Infos = new StringBuilder();
+                    Infos.Append(" select * from Infos where TIID in (select TIID from dbo.TempInfo where ITID=" +
+                                 model.ITID + " );");
+                    DbCommand dbComInfos = db.GetSqlStringCommand(Infos.ToString());
+                    var dtInfos = db.ExecuteDataSet(dbComInfos, trans).Tables[0];
+
+                    var TempInfo = new StringBuilder();
+                    TempInfo.Append(" select * from TempInfo where ITID=" + model.ITID + " ");
+                    DbCommand dbComTempInfo = db.GetSqlStringCommand(TempInfo.ToString());
+                    var dtTempInfo = db.ExecuteDataSet(dbComTempInfo, trans).Tables[0];
+
+                    #endregion
+
                     StringBuilder strSql = new StringBuilder();
                     strSql.Append("delete from AdInfos where ");
                     strSql.Append(
@@ -591,6 +617,99 @@ namespace ECommerce.Admin.DAL
                         }
                     }
                     trans.Commit();
+
+                    #region delete files
+
+                    if (dtAttList.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtAttList.Rows.Count; i++)
+                        {
+                            try
+                            {
+                                var oldbpic =
+                                    new FileInfo(
+                                        HttpContext.Current.Server.MapPath("/UploadFiles/" + dtAttList.Rows[i]["AttID"]));
+                                if (!string.IsNullOrEmpty(dtAttList.Rows[i]["AttID"].ToString()) && oldbpic.Exists)
+                                {
+                                    oldbpic.Delete();
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+
+                    if (dtInfos.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtInfos.Rows.Count; i++)
+                        {
+                            try
+                            {
+                                var oldbpic =
+                                    new FileInfo(
+                                        HttpContext.Current.Server.MapPath("/UploadFiles/" + dtInfos.Rows[i]["PicAttID"]));
+                                if (!string.IsNullOrEmpty(dtInfos.Rows[i]["PicAttID"].ToString()) && oldbpic.Exists)
+                                {
+                                    oldbpic.Delete();
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            try
+                            {
+                                var oldbpic1 =
+                                    new FileInfo(
+                                        HttpContext.Current.Server.MapPath("/UploadFiles/" +
+                                                                           dtInfos.Rows[i]["VideoAttID"]));
+                                if (!string.IsNullOrEmpty(dtInfos.Rows[i]["VideoAttID"].ToString()) && oldbpic1.Exists)
+                                {
+                                    oldbpic1.Delete();
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                            try
+                            {
+                                var oldbpic2 =
+                                    new FileInfo(
+                                        HttpContext.Current.Server.MapPath("/UploadFiles/" + dtInfos.Rows[i]["ADPic"]));
+                                if (!string.IsNullOrEmpty(dtInfos.Rows[i]["ADPic"].ToString()) && oldbpic2.Exists)
+                                {
+                                    oldbpic2.Delete();
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+
+                        }
+                    }
+
+                    if (dtTempInfo.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtTempInfo.Rows.Count; i++)
+                        {
+                            try
+                            {
+                                var oldbpic =
+                                    new FileInfo(
+                                        HttpContext.Current.Server.MapPath("/UploadFiles/" + dtTempInfo.Rows[i]["AttID"]));
+                                if (!string.IsNullOrEmpty(dtTempInfo.Rows[i]["AttID"].ToString()) && oldbpic.Exists)
+                                {
+                                    oldbpic.Delete();
+                                }
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+
+                    #endregion
+
                     result = true;
                 }
                 catch
