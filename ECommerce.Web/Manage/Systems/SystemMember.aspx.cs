@@ -1,12 +1,4 @@
-﻿
-//**************************************************************
-// 文件名：SystemMember（会员管理）
-// 数据表：UserAccount(会员信息表)
-// 创建人： 田霄
-// 创建时间： 2013年9月24日
-//**************************************************************
-
-using System;
+﻿using System;
 using System.Data;
 using System.Text;
 using System.Web.UI.WebControls;

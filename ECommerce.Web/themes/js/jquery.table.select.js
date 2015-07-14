@@ -1,9 +1,4 @@
-﻿// JavaScript Document
-//用以表格 隔行换色、全选、反选、单选高亮
-//wangt5k@126.com    qq:303598805
-//使用方法 导入此文件至页面
-
-/*  页面中写入如下代码调用  
+﻿/*   
 
 <script type="text/javascript">
 $(function(){
